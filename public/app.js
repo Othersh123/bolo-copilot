@@ -340,6 +340,7 @@ async function stopRec() {
     await startGoal(j.text, t0, true);
   } catch (e) {
     console.warn(e); trail("voice_error", { err: String(e.message || e).slice(0, 300) });
+    log("⚠ " + L[lang()].sorry, "Voice error: " + String(e.message || e).slice(0, 160), true);
     $("#listening").classList.remove("on"); caption(L[lang()].sorry, "");
     speak(L[lang()].sorry);
   } finally { tab.classList.remove("busy"); }
@@ -422,6 +423,7 @@ async function step(t0, forceShot = false) {
     await speak(s.say, t0);
   } catch (e) {
     console.error(e); trail("step_error", { err: String(e.message || e).slice(0, 400) });
+    log("⚠ " + L[lang()].sorry, "Error: " + String(e.message || e).slice(0, 160), true);
     $("#listening").classList.remove("on");
     caption(L[lang()].sorry, "Error: " + String(e.message || e).slice(0, 140));
   } finally { busy = false; }

@@ -179,7 +179,9 @@ async function thinkOpenAI({ lang, text, screenshot }) {
   const raw = (body.choices?.[0]?.message?.content || "").replace(/<think>[\s\S]*?<\/think>/g, "");
   const m = raw.slice(raw.indexOf("{")).match(/\{[\s\S]*\}/);
   if (!m) throw { status: 502, detail: { raw } };
-  const step = JSON.parse(m[0]);
+  let step;
+  try { step = JSON.parse(m[0]); }
+  catch (err) { throw { status: 502, detail: { parse_error: String(err.message || err), raw: m[0].slice(0, 600) } }; }
   step.safety ||= { level: "safe", reason: "" };
   step.target_id ??= null;
   return { step, model: body.model || LLM_MODEL };
@@ -197,7 +199,13 @@ ${JSON.stringify(tree)}`;
     const think = () => PROVIDER === "anthropic"
       ? thinkAnthropic({ lang, text, screenshot })
       : thinkOpenAI({ lang, text, screenshot });
-    let out = await think();
+    let out;
+    try { out = await think(); }
+    catch (e1) {
+      // Usually malformed JSON from the model; one retry almost always succeeds.
+      console.error(`[think] ${tree?.screen} attempt 1 failed, retrying:`, JSON.stringify(e1.detail || String(e1)).slice(0, 300));
+      out = await think();
+    }
     // A step with nothing to say leaves the parent with a silent, frozen screen: ask once more.
     if (!out.step.say && !out.step.say_en) out = await think();
     // Models sometimes drop a field; never let "undefined" reach the screen or the voice.
