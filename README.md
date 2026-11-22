@@ -64,4 +64,4 @@ If both LLM options are set, Anthropic is used.
 
 ## Tools used
 
-Claude (Anthropic API) / Nebius Token Factory, ElevenLabs (Scribe STT + TTS), Node.js + Express, html2canvas, Replit. Claude helped write the code.
+Nebius Token Factory (nvidia/Nemotron-3.5-Super-VL) for reasoning and vision, with Claude (Anthropic API) supported as an alternative; ElevenLabs (Scribe STT + TTS), Node.js + Express, html2canvas, Replit. Claude Code helped write the code.

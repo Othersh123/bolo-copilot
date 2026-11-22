@@ -14,7 +14,7 @@
     <h1>Bolo <span>· ask your phone in your own language</span></h1>
     <p class="sub">Press the orange <b>Ask</b> tab, say what you want, and Bolo shows the one thing to tap and tells you out loud. It never taps for you.</p>
   </div>
-  <p class="mock">Mocked: the Android phone is a web simulation, and its screen tree mirrors Android <code>AccessibilityNodeInfo</code>. Live: ElevenLabs speech-to-text, Claude reasoning, ElevenLabs voice, redaction, overlay.</p>
+  <p class="mock">Mocked: the Android phone is a web simulation, and its screen tree mirrors Android <code>AccessibilityNodeInfo</code>. Live: ElevenLabs speech-to-text, Nemotron reasoning (Nebius), ElevenLabs voice, redaction, overlay.</p>
 </header>
 
 <main class="stage">
@@ -251,7 +251,7 @@
     <h2>Time to first help <small>target ≤ 2.5 s</small></h2>
     <div class="lat" id="lat">
       <div class="lrow"><span>Speech → text</span><div class="lb"><i id="bStt"></i></div><b id="vStt">–</b></div>
-      <div class="lrow"><span>Claude picks step</span><div class="lb"><i id="bThink"></i></div><b id="vThink">–</b></div>
+      <div class="lrow"><span>AI picks step</span><div class="lb"><i id="bThink"></i></div><b id="vThink">–</b></div>
       <div class="lrow"><span>Voice ready</span><div class="lb"><i id="bTts"></i></div><b id="vTts">–</b></div>
       <div class="lrow tot"><span>Highlight shown</span><div class="lb"><i id="bHi"></i><em></em></div><b id="vHi">–</b></div>
       <div class="lrow tot"><span>First audio</span><div class="lb"><i id="bAud"></i><em></em></div><b id="vAud">–</b></div>
@@ -268,7 +268,7 @@
     <h2>Step log</h2>
     <ol class="log" id="log"></ol>
 
-    <details><summary>What Bolo sent to Claude (redacted screen tree)</summary><pre id="treeView">—</pre></details>
+    <details><summary>What Bolo sent to the AI (redacted screen tree)</summary><pre id="treeView">—</pre></details>
   </aside>
 </main>
 
