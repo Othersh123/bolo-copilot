@@ -129,10 +129,18 @@ h1,h2{font-family:"Schibsted Grotesk",sans-serif}
 @keyframes wv{50%{height:28px}}
 .ask-tab{position:absolute;right:-48px;top:300px;width:58px;height:150px;border-radius:0 26px 26px 0;border:0;background:var(--acc);color:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:15px;box-shadow:0 8px 20px rgba(0,0,0,.3);touch-action:none;user-select:none;-webkit-user-select:none;z-index:2;padding-left:14px}
 .ask-tab svg{width:28px;height:28px}
-.ask-tab.rec{background:#FF3B30;color:#fff}
+.ask-tab.rec{background:#FF3B30;color:#fff;animation:recpulse 1.2s ease-out infinite}
+.ask-tab.rec svg{display:none}
+.ask-tab.rec::before{content:"";width:22px;height:22px;background:#fff;border-radius:4px}
+@keyframes recpulse{0%{box-shadow:0 0 0 0 rgba(255,59,48,.75)}100%{box-shadow:0 0 0 22px rgba(255,59,48,0)}}
+.listening .rectime,.listening .stopbtn{display:none}
+.listening.rec{border-color:#FF3B30}
+.listening.rec .rectime{display:inline;margin-left:auto;font-variant-numeric:tabular-nums;opacity:.8}
+.listening.rec .stopbtn{display:flex;align-items:center;gap:8px;background:#FF3B30;color:#fff;border:0;border-radius:14px;padding:10px 14px;font:inherit;font-size:17px;font-weight:800;cursor:pointer}
+.stopbtn i{width:14px;height:14px;background:#fff;border-radius:3px}
 .ask-tab.busy{opacity:.7}
 .ask-tab:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
-@media(prefers-reduced-motion:reduce){.spot.on,.finger,.wave i{animation:none}}
+@media(prefers-reduced-motion:reduce){.spot.on,.finger,.wave i,.ask-tab.rec{animation:none}}
 
 /* ---------- console ---------- */
 .console{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px 22px}

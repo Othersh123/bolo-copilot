@@ -181,23 +181,23 @@ async function screenshot(tree) {
 
 // ================= Language packs =================
 const L = {
-  kn: { tag: "kn-IN", ask: "ಕೇಳಿ", listening: "ಕೇಳುತ್ತಿದ್ದೇನೆ…", thinking: "ನೋಡುತ್ತಿದ್ದೇನೆ…",
+  kn: { tag: "kn-IN", ask: "ಕೇಳಿ", listening: "ಕೇಳುತ್ತಿದ್ದೇನೆ…", stop: "ನಿಲ್ಲಿಸಿ", thinking: "ನೋಡುತ್ತಿದ್ದೇನೆ…",
         secure: "ನಿಮ್ಮ ಸುರಕ್ಷತೆಗಾಗಿ ನಾನು ಬ್ಯಾಂಕಿಂಗ್ ಪರದೆ ನೋಡುವುದಿಲ್ಲ. ಜಾಗ್ರತೆ, PIN ಹಾಕುವ ಮುಂಚೆ ಮನೆಯವರನ್ನು ಕೇಳಿ.",
         danger: "ಎಚ್ಚರಿಕೆ: ಇದು ಮೋಸ ಇರಬಹುದು", sorry: "ಕ್ಷಮಿಸಿ, ಸರಿಯಾಗಿ ಕೇಳಿಸಲಿಲ್ಲ. ಮತ್ತೊಮ್ಮೆ ಹೇಳಿ.",
         chips: ["ಮಗನಿಗೆ ಕೇಕ್ ಫೋಟೋ ಕಳಿಸಬೇಕು", "ಈ ಬ್ಯಾಂಕ್ ಮೆಸೇಜ್ ನಿಜಾನಾ? ಅಕೌಂಟ್ ಬ್ಲಾಕ್ ಆಗುತ್ತಂತೆ", "ಫೋನ್ ಸ್ಟೋರೇಜ್ ಫುಲ್ ಆಗಿದೆ, ಏನು ಮಾಡ್ಲಿ?", "ಬ್ಯಾಲೆನ್ಸ್ ನೋಡಬೇಕು"] },
-  hi: { tag: "hi-IN", ask: "पूछें", listening: "सुन रहा हूँ…", thinking: "देख रहा हूँ…",
+  hi: { tag: "hi-IN", ask: "पूछें", listening: "सुन रहा हूँ…", stop: "रोकें", thinking: "देख रहा हूँ…",
         secure: "आपकी सुरक्षा के लिए मैं बैंकिंग स्क्रीन नहीं देखता। ध्यान रखें, PIN डालने से पहले घर वालों से पूछ लें।",
         danger: "सावधान: यह धोखा हो सकता है", sorry: "माफ़ कीजिए, ठीक से सुनाई नहीं दिया। फिर से बोलिए।",
         chips: ["बेटे को केक वाली फोटो भेजनी है", "ये बैंक वाला मैसेज सच है क्या? अकाउंट बंद हो जाएगा बोल रहा है", "फ़ोन की storage full हो गई है, क्या करूँ?", "बैलेंस चेक करना है"] },
-  ta: { tag: "ta-IN", ask: "கேளுங்கள்", listening: "கேட்கிறேன்…", thinking: "பார்க்கிறேன்…",
+  ta: { tag: "ta-IN", ask: "கேளுங்கள்", listening: "கேட்கிறேன்…", stop: "நிறுத்து", thinking: "பார்க்கிறேன்…",
         secure: "உங்கள் பாதுகாப்புக்காக நான் வங்கி திரையைப் பார்க்க மாட்டேன். கவனமாக இருங்கள், PIN போடும் முன் வீட்டில் கேளுங்கள்.",
         danger: "எச்சரிக்கை: இது மோசடியாக இருக்கலாம்", sorry: "மன்னிக்கவும், சரியாகக் கேட்கவில்லை. மீண்டும் சொல்லுங்கள்.",
         chips: ["மகனுக்கு கேக் போட்டோ அனுப்பணும்", "இந்த பேங்க் மெசேஜ் உண்மையா? அக்கவுண்ட் பிளாக் ஆகுமாம்", "போன் ஸ்டோரேஜ் ஃபுல் ஆயிடுச்சு, என்ன பண்றது?", "பேலன்ஸ் பார்க்கணும்"] },
-  te: { tag: "te-IN", ask: "అడగండి", listening: "వింటున్నాను…", thinking: "చూస్తున్నాను…",
+  te: { tag: "te-IN", ask: "అడగండి", listening: "వింటున్నాను…", stop: "ఆపండి", thinking: "చూస్తున్నాను…",
         secure: "మీ భద్రత కోసం నేను బ్యాంకింగ్ స్క్రీన్ చూడను. జాగ్రత్తగా ఉండండి, PIN వేసే ముందు ఇంట్లో వాళ్ళని అడగండి.",
         danger: "జాగ్రత్త: ఇది మోసం కావచ్చు", sorry: "క్షమించండి, సరిగ్గా వినపడలేదు. మళ్ళీ చెప్పండి.",
         chips: ["అబ్బాయికి కేక్ ఫోటో పంపాలి", "ఈ బ్యాంక్ మెసేజ్ నిజమేనా? అకౌంట్ బ్లాక్ అవుతుందట", "ఫోన్ స్టోరేజ్ ఫుల్ అయింది, ఏం చేయాలి?", "బ్యాలెన్స్ చూడాలి"] },
-  en: { tag: "en-IN", ask: "Ask", listening: "Listening…", thinking: "Looking…",
+  en: { tag: "en-IN", ask: "Ask", listening: "Listening…", stop: "Stop", thinking: "Looking…",
         secure: "To keep you safe, I don't look at banking screens. Please be careful, and ask family before you enter your PIN.",
         danger: "Careful: this looks like a fraud", sorry: "Sorry, I didn't catch that. Please say it again.",
         chips: ["Send the cake photo to my son", "Is this bank message real? It says my account will be blocked", "My phone storage is full, what do I do?", "I want to check my balance"] },
@@ -286,7 +286,7 @@ async function speak(text, t0) {
 
 // ================= Voice in: push-to-ask =================
 const tab = $("#askTab");
-let rec = null, chunks = [], pressT = 0, recStart = 0;
+let rec = null, chunks = [], pressT = 0, recStart = 0, recTimer = null;
 async function startRec() {
   unlockAudio(); clearOverlay(); audio.pause();
   try {
@@ -295,14 +295,23 @@ async function startRec() {
     rec = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
     chunks = []; rec.ondataavailable = (e) => e.data.size && chunks.push(e.data);
     rec.start(); recStart = performance.now();
-    tab.classList.add("rec"); $("#listening").classList.add("on"); $("#listenText").textContent = L[lang()].listening;
+    tab.classList.add("rec"); $("#askLabel").textContent = L[lang()].stop;
+    $("#listening").classList.add("on", "rec"); $("#listenText").textContent = L[lang()].listening;
+    $("#stopLabel").textContent = L[lang()].stop;
+    recTimer = setInterval(() => {
+      const sec = Math.floor((performance.now() - recStart) / 1000);
+      $("#recTime").textContent = `0:${String(sec).padStart(2, "0")}`;
+      if (sec >= 20) stopRec(); // safety: never keep the mic open
+    }, 250);
   } catch (e) { toast("Microphone blocked — use the typed box"); rec = null; }
 }
 async function stopRec() {
   if (!rec) return;
   const r = rec; rec = null;
   const t0 = performance.now();  // trigger released: latency clock starts
-  tab.classList.remove("rec"); tab.classList.add("busy");
+  clearInterval(recTimer); $("#recTime").textContent = "0:00";
+  tab.classList.remove("rec"); tab.classList.add("busy"); $("#askLabel").textContent = L[lang()].ask;
+  $("#listening").classList.remove("rec");
   $("#listenText").textContent = L[lang()].thinking;
   await new Promise((res) => { r.onstop = res; r.stop(); });
   r.stream.getTracks().forEach((t) => t.stop());
@@ -325,6 +334,7 @@ tab.addEventListener("pointerdown", (e) => {
   if (rec) { stopRec(); return; }
   pressT = performance.now(); startRec();
 });
+$("#stopBtn").addEventListener("click", (e) => { e.preventDefault(); stopRec(); });
 tab.addEventListener("pointerup", () => { if (rec && performance.now() - pressT > 450) stopRec(); });
 tab.addEventListener("keydown", (e) => { if ((e.key === " " || e.key === "Enter") && !e.repeat) { e.preventDefault(); rec ? stopRec() : startRec(); } });
 
