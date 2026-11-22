@@ -11,7 +11,7 @@ A parent presses one big **Ask** tab and says what they want in their own langua
 | Android phone (WhatsApp, Messages, Settings, UPI app) | **Mocked**: a web simulation |
 | Screen understanding | Real. The accessibility tree is extracted from the simulated screen in the same shape as Android `AccessibilityNodeInfo` (text, content description, class, clickable, bounds) |
 | Speech to text | Real: ElevenLabs Scribe |
-| Reasoning (picks one next step, checks for scams) | Real: Claude (Anthropic API), or any OpenAI-compatible model such as Nebius Token Factory |
+| Reasoning (picks one next step, checks for scams) | Real: Claude (Anthropic API), or Nebius Token Factory (`nvidia/Nemotron-3.5-Super-VL`) |
 | Vision fallback | Real. When the tree has unlabeled elements (for example a photo grid), a screenshot is sent with node ids drawn on it |
 | Voice out | Real. ElevenLabs Flash v2.5 for Hindi, Tamil and English (fastest); Eleven v3 for Kannada and Telugu |
 | Privacy redaction | Real. OTPs, phone numbers, card numbers and UPI IDs are replaced before anything leaves the device, and blacked out in screenshots |

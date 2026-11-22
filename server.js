@@ -16,8 +16,8 @@ const VOICE_ID = process.env.ELEVEN_VOICE_ID || "JBFqnCBsd6RMkjVDRZzb";
 const STT_MODEL = process.env.ELEVEN_STT_MODEL || "scribe_v2";
 // Fallback brain: any OpenAI-compatible endpoint (e.g. Nebius Token Factory).
 const LLM_API_KEY = process.env.LLM_API_KEY;
-const LLM_BASE_URL = (process.env.LLM_BASE_URL || "https://api.tokenfactory.nebius.com/v1").replace(/\/$/, "");
-const LLM_MODEL = process.env.LLM_MODEL || "Qwen/Qwen2.5-VL-72B-Instruct";
+const LLM_BASE_URL = (process.env.LLM_BASE_URL || "https://api.tokenfactory.us-north1.nebius.com/v1").replace(/\/$/, "");
+const LLM_MODEL = process.env.LLM_MODEL || "nvidia/Nemotron-3.5-Super-VL";
 const PROVIDER = ANTHROPIC_API_KEY ? "anthropic" : LLM_API_KEY ? "openai-compatible" : null;
 
 // Flash v2.5 is fastest (~75ms) but only covers some Indian languages.
@@ -165,7 +165,7 @@ async function thinkOpenAI({ lang, text, screenshot }) {
       headers: { authorization: `Bearer ${LLM_API_KEY}`, "content-type": "application/json" },
       body: JSON.stringify({
         model: LLM_MODEL,
-        max_tokens: 500,
+        max_tokens: 1500, // headroom in case the model reasons before answering
         temperature: 0.2,
         ...(jsonMode ? { response_format: { type: "json_object" } } : {}),
         messages: [{ role: "system", content: sys }, { role: "user", content: user }],
@@ -175,8 +175,9 @@ async function thinkOpenAI({ lang, text, screenshot }) {
   if (!r.ok) r = await call(false); // some models reject response_format
   const body = await r.json();
   if (!r.ok) throw { status: 502, detail: body };
-  const raw = body.choices?.[0]?.message?.content || "";
-  const m = raw.match(/\{[\s\S]*\}/);
+  // Drop any visible reasoning (<think>…</think>) before looking for the JSON answer.
+  const raw = (body.choices?.[0]?.message?.content || "").replace(/<think>[\s\S]*?<\/think>/g, "");
+  const m = raw.slice(raw.indexOf("{")).match(/\{[\s\S]*\}/);
   if (!m) throw { status: 502, detail: { raw } };
   const step = JSON.parse(m[0]);
   step.safety ||= { level: "safe", reason: "" };

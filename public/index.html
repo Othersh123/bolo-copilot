@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bolo · voice co-pilot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Kannada:wght@500;700&family=Noto+Sans+Devanagari:wght@500;700&family=Noto+Sans+Tamil:wght@500;700&family=Noto+Sans+Telugu:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Bolo <span>· ask your phone in your own language</span></h1>
+    <p class="sub">Press the orange <b>Ask</b> tab, say what you want, and Bolo shows the one thing to tap and tells you out loud. It never taps for you.</p>
+  </div>
+  <p class="mock">Mocked: the Android phone is a web simulation, and its screen tree mirrors Android <code>AccessibilityNodeInfo</code>. Live: ElevenLabs speech-to-text, Claude reasoning, ElevenLabs voice, redaction, overlay.</p>
+</header>
+
+<main class="stage">
+  <!-- ================= PHONE ================= -->
+  <div class="phone-wrap">
+    <div class="phone" id="phone">
+      <div class="screen-area" id="screenArea">
+        <div class="statusbar"><span id="clock">2:15</span><span class="sb-icons">5G ▮▮▮ 72%</span></div>
+
+        <!-- HOME -->
+        <section class="screen" data-screen="home">
+          <div class="home-clock"><div class="big" id="homeClock">2:15</div><div id="homeDate">Sunday, 22 November</div></div>
+          <div class="app-grid">
+            <button class="app" data-go="wa_list"><span class="ic" style="background:#25D366"><svg viewBox="0 0 24 24"><path fill="#fff" d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3zm4.3 12.4c-.2.5-1 1-1.5 1-.4.1-.9.1-2.8-.6-2.4-1-3.9-3.4-4-3.6-.1-.2-1-1.3-1-2.5s.6-1.8.9-2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.6 2 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.8.9c.3.1.4.2.5.3.1.2.1.7-.1 1.2z"/></svg></span>WhatsApp</button>
+            <button class="app" data-go="sms_list"><span class="ic" style="background:#1A73E8"><svg viewBox="0 0 24 24"><path fill="#fff" d="M4 4h16v12H7l-3 3z"/></svg></span>Messages</button>
+            <button class="app" data-go="settings"><span class="ic" style="background:#5F6368"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="#fff" stroke-width="2"/><path stroke="#fff" stroke-width="2" d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg></span>Settings</button>
+            <button class="app" data-go="pay_home"><span class="ic" style="background:#5F259F"><svg viewBox="0 0 24 24"><path fill="#fff" d="M6 5h8a4 4 0 0 1 0 8h-4v6H7V8H6z"/></svg></span>PayNow</button>
+            <button class="app"><span class="ic" style="background:#F4B400"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2" fill="#fff"/><path d="M6 17l4-5 3 3 2-2 3 4z" fill="#F4B400"/></svg></span>Gallery</button>
+            <button class="app"><span class="ic" style="background:#0F9D58"><svg viewBox="0 0 24 24"><path fill="#fff" d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg></span>Phone</button>
+            <button class="app"><span class="ic" style="background:#EA4335"><svg viewBox="0 0 24 24"><path fill="#fff" d="M10 8l6 4-6 4z"/></svg></span>YouTube</button>
+            <button class="app"><span class="ic" style="background:#fff;border:1px solid #ddd"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#4285F4"/><circle cx="12" cy="12" r="3.5" fill="#fff"/></svg></span>Chrome</button>
+          </div>
+          <div class="searchbar">Search</div>
+        </section>
+
+        <!-- WHATSAPP CHAT LIST -->
+        <section class="screen" data-screen="wa_list">
+          <div class="wa-top"><b>WhatsApp</b><span class="sp"></span>
+            <button class="ib" aria-label="Camera"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 4l-2 2H4v13h16V6h-3l-2-2zm3 4a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9z"/></svg></button>
+            <button class="ib" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path stroke="currentColor" stroke-width="2" d="M15 15l5 5"/></svg></button>
+            <button class="ib"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2" fill="currentColor"/><circle cx="12" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="19" r="2" fill="currentColor"/></svg></button>
+          </div>
+          <div class="wa-tabs"><span class="on">Chats</span><span>Updates</span><span>Calls</span></div>
+          <button class="chatrow" data-go="wa_chat"><span class="av" style="background:#7E57C2">R</span><span class="cr"><b>Ravi (Son)</b><small>Amma, did you have lunch?</small></span><time>1:42 pm</time></button>
+          <button class="chatrow"><span class="av" style="background:#EF6C00">F</span><span class="cr"><b>Family Group</b><small>Lakshmi: Good morning everyone</small></span><time>9:10 am</time></button>
+          <button class="chatrow"><span class="av" style="background:#00897B">L</span><span class="cr"><b>Lakshmi Aunty</b><small>Photo</small></span><time>Yesterday</time></button>
+          <button class="chatrow"><span class="av" style="background:#546E7A">+</span><span class="cr"><b>+91 98450 12345</b><small>Congratulations! You won ₹25,000 lucky draw</small></span><time>Yesterday</time></button>
+          <button class="fab" aria-label="New chat"><svg viewBox="0 0 24 24"><path fill="#fff" d="M4 4h16v12H7l-3 3z"/></svg></button>
+        </section>
+
+        <!-- WHATSAPP CHAT -->
+        <section class="screen wa-chat" data-screen="wa_chat">
+          <div class="wa-head">
+            <button class="ib" aria-label="Navigate up" data-go="back"><svg viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2.4" fill="none" d="M15 5l-7 7 7 7"/></svg></button>
+            <span class="av sm" style="background:#7E57C2">R</span><b class="grow">Ravi (Son)</b>
+            <button class="ib" aria-label="Video call"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 7h12v10H3zM16 10l5-3v10l-5-3z"/></svg></button>
+            <button class="ib" aria-label="Voice call"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg></button>
+          </div>
+          <div class="msgs" id="waMsgs">
+            <div class="bub in">Amma, how was the birthday function?</div>
+            <div class="bub in">Send me the cake photo 🙂</div>
+            <div class="bub in">Amma, did you have lunch?</div>
+          </div>
+          <div class="wa-input">
+            <div class="field"><span class="ph">Message</span>
+              <button class="ib" aria-label="Attach" data-act="openAttach"><svg viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" fill="none" d="M16 7l-7.5 7.5a2 2 0 0 0 3 3L19 10a4 4 0 0 0-6-6l-7.5 7.5a6 6 0 0 0 8.5 8.5L20 14"/></svg></button>
+              <button class="ib" aria-label="Camera"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 4l-2 2H4v13h16V6h-3l-2-2zm3 4a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9z"/></svg></button>
+            </div>
+            <button class="round green" aria-label="Voice message"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3" fill="#fff"/><path stroke="#fff" stroke-width="2" fill="none" d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg></button>
+          </div>
+          <div class="modal" id="attachSheet">
+            <div class="scrim" data-act="closeModal"></div>
+            <div class="sheet">
+              <button class="att" data-go="wa_gallery"><span style="background:#BF59CF">▦</span>Gallery</button>
+              <button class="att"><span style="background:#7F66FF">▤</span>Document</button>
+              <button class="att"><span style="background:#FF2E74">◉</span>Camera</button>
+              <button class="att"><span style="background:#1FA855">⌖</span>Location</button>
+              <button class="att"><span style="background:#009DE2">☺</span>Contact</button>
+              <button class="att"><span style="background:#FF7F33">♪</span>Audio</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- WHATSAPP GALLERY: deliberately unlabeled thumbnails -> vision fallback -->
+        <section class="screen" data-screen="wa_gallery">
+          <div class="wa-head">
+            <button class="ib" aria-label="Navigate up" data-go="back"><svg viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2.4" fill="none" d="M15 5l-7 7 7 7"/></svg></button>
+            <b class="grow">Recents</b>
+          </div>
+          <div class="grid" id="photoGrid"></div>
+        </section>
+
+        <!-- WHATSAPP PREVIEW -->
+        <section class="screen dark" data-screen="wa_preview">
+          <div class="pv-top"><button class="ib light" aria-label="Close" data-go="back"><svg viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2.4" d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+          <div class="pv-img" id="pvImg"></div>
+          <div class="pv-bottom"><div class="caption">Add a caption...</div>
+            <div class="pv-to"><span class="pill">Ravi (Son)</span>
+              <button class="round green big" aria-label="Send" data-act="sendPhoto"><svg viewBox="0 0 24 24"><path fill="#fff" d="M3 20l18-8L3 4v6l12 2-12 2z"/></svg></button>
+            </div>
+          </div>
+        </section>
+
+        <!-- SMS LIST -->
+        <section class="screen" data-screen="sms_list">
+          <div class="g-top"><b>Messages</b></div>
+          <button class="chatrow" data-go="sms_scam"><span class="av" style="background:#C62828">V</span><span class="cr"><b>VM-SBIUPD</b><small>Dear Customer, your SBI account will be BLOCKED today…</small></span><time>1:31 pm</time></button>
+          <button class="chatrow"><span class="av" style="background:#1565C0">H</span><span class="cr"><b>AD-HDFCBK</b><small>482913 is your OTP for NetBanking login. Do not share it.</small></span><time>11:02 am</time></button>
+          <button class="chatrow"><span class="av" style="background:#7E57C2">R</span><span class="cr"><b>Ravi</b><small>Call me on 9845012345 when free</small></span><time>Yesterday</time></button>
+          <button class="chatrow"><span class="av" style="background:#E53935">A</span><span class="cr"><b>AX-AIRTEL</b><small>Your bill of Rs 499 is due on 25 Nov.</small></span><time>Mon</time></button>
+          <button class="fab blue" aria-label="Start chat"><svg viewBox="0 0 24 24"><path fill="#fff" d="M4 4h16v12H7l-3 3z"/></svg></button>
+        </section>
+
+        <!-- SMS SCAM THREAD -->
+        <section class="screen" data-screen="sms_scam">
+          <div class="wa-head g">
+            <button class="ib" aria-label="Navigate up" data-go="back"><svg viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2.4" fill="none" d="M15 5l-7 7 7 7"/></svg></button>
+            <b class="grow">VM-SBIUPD</b>
+            <button class="ib" aria-label="Delete conversation" data-act="deleteSms"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 6h10l-1 14H8zM9 3h6v2H9zM5 5h14v2H5z"/></svg></button>
+          </div>
+          <div class="msgs light">
+            <div class="bub in grey">Dear Customer, your SBI YONO account will be BLOCKED today due to pending PAN KYC. Update immediately to avoid suspension:
+              <a href="#" class="lnk" data-act="scamLink">http://sbi-kyc-verify.co.in/upd</a>
+              For help call 7029448831.</div>
+          </div>
+          <div class="spam-bar">
+            <button class="sbtn" data-act="reportSpam">Report spam</button>
+            <button class="sbtn">Reply</button>
+          </div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section class="screen" data-screen="settings">
+          <div class="g-top"><b>Settings</b></div>
+          <div class="search-pill">Search settings</div>
+          <button class="srow"><b>Network &amp; internet</b><small>Mobile, Wi‑Fi, hotspot</small></button>
+          <button class="srow"><b>Connected devices</b><small>Bluetooth, pairing</small></button>
+          <button class="srow"><b>Apps</b><small>Recent apps, default apps</small></button>
+          <button class="srow"><b>Notifications</b><small>Notification history</small></button>
+          <button class="srow"><b>Battery</b><small>72%</small></button>
+          <button class="srow" data-go="storage"><b>Storage</b><small>97% used · 1.9 GB free</small></button>
+          <button class="srow"><b>Sound &amp; vibration</b><small>Volume, haptics</small></button>
+          <button class="srow"><b>Display</b><small>Dark theme, font size</small></button>
+          <button class="srow"><b>System</b><small>Languages, backup, reset</small></button>
+        </section>
+
+        <!-- STORAGE -->
+        <section class="screen" data-screen="storage">
+          <div class="wa-head g">
+            <button class="ib" aria-label="Navigate up" data-go="back"><svg viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2.4" fill="none" d="M15 5l-7 7 7 7"/></svg></button>
+            <b class="grow">Storage</b>
+          </div>
+          <div class="st-sum"><div class="st-big">62.1 GB <small>used of 64 GB</small></div><div class="st-bar"><i style="width:97%"></i></div></div>
+          <button class="srow" data-go="app_wa"><b>WhatsApp</b><small>14.2 GB</small></button>
+          <button class="srow"><b>YouTube</b><small>3.1 GB</small></button>
+          <button class="srow"><b>Chrome</b><small>1.4 GB</small></button>
+          <button class="srow"><b>Images</b><small>21.0 GB</small></button>
+          <button class="srow"><b>System</b><small>12.8 GB</small></button>
+        </section>
+
+        <!-- APP STORAGE: WhatsApp -->
+        <section class="screen" data-screen="app_wa">
+          <div class="wa-head g">
+            <button class="ib" aria-label="Navigate up" data-go="back"><svg viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2.4" fill="none" d="M15 5l-7 7 7 7"/></svg></button>
+            <b class="grow">App storage</b>
+          </div>
+          <div class="kv"><span>App size</span><b>98 MB</b></div>
+          <div class="kv"><span>User data</span><b>11.9 GB</b></div>
+          <div class="kv"><span>Cache</span><b id="cacheSize">2.2 GB</b></div>
+          <div class="kv tot"><span>Total</span><b id="totSize">14.2 GB</b></div>
+          <div class="two">
+            <button class="obtn" data-act="askClearStorage">Clear storage</button>
+            <button class="obtn" data-act="clearCache">Clear cache</button>
+          </div>
+          <div class="modal" id="dataDialog">
+            <div class="scrim"></div>
+            <div class="dialog">
+              <b>Delete app data?</b>
+              <p>All of this app's data will be deleted permanently. This includes all chats, photos, settings and accounts.</p>
+              <div class="dl-btns"><button class="tbtn" data-act="closeModal">Cancel</button><button class="tbtn" data-act="wipeData">Delete</button></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PAY APP -->
+        <section class="screen" data-screen="pay_home">
+          <div class="pay-top"><b>PayNow</b><small>UPI · linked SBI ••4410</small></div>
+          <div class="pay-grid">
+            <button class="pg" data-go="pay_pin"><span>⌗</span>Scan &amp; pay</button>
+            <button class="pg" data-go="pay_pin"><span>☏</span>To mobile number</button>
+            <button class="pg" data-go="pay_pin"><span>₹</span>Check balance</button>
+            <button class="pg"><span>⚡</span>Electricity bill</button>
+          </div>
+          <div class="pay-banner">Win cashback up to ₹100 on bill payments</div>
+        </section>
+        <section class="screen dark" data-screen="pay_pin" data-secure="true">
+          <div class="pin-top">SBI ••4410<br><small>ENTER 4-DIGIT UPI PIN</small></div>
+          <div class="pin-dots"><i></i><i></i><i></i><i></i></div>
+          <div class="keypad"><button>1</button><button>2</button><button>3</button><button>4</button><button>5</button><button>6</button><button>7</button><button>8</button><button>9</button><button data-go="back">✕</button><button>0</button><button>✓</button></div>
+        </section>
+
+        <div class="toast" id="toast"></div>
+        <div class="navbar">
+          <button aria-label="Back" data-go="back"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M16 5v14L6 12z"/></svg></button>
+          <button aria-label="Home" data-go="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+          <button aria-label="Recent apps"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+        </div>
+
+        <!-- CO-PILOT OVERLAY (system overlay, never intercepts taps) -->
+        <div class="overlay" id="overlay">
+          <div class="spot" id="spot"></div>
+          <svg class="finger" id="finger" viewBox="0 0 48 48"><path d="M18 44c-3-4-9-9-9-13 0-2 2-3 4-2l4 3V8a3 3 0 0 1 6 0v12a3 3 0 0 1 6 0v1a3 3 0 0 1 6 0v2a3 3 0 0 1 6 0v9c0 6-3 12-6 12z" fill="#fff" stroke="#111" stroke-width="2.4" stroke-linejoin="round"/></svg>
+          <div class="danger" id="danger"></div>
+          <div class="caption-bar" id="captionBar"><div class="say" id="sayText"></div><div class="say-en" id="sayEn"></div></div>
+          <div class="listening" id="listening"><div class="wave"><i></i><i></i><i></i><i></i><i></i></div><div id="listenText">Listening…</div></div>
+        </div>
+      </div>
+      <button class="ask-tab" id="askTab" aria-label="Ask Bolo"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path stroke="currentColor" stroke-width="2.2" fill="none" d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg><span id="askLabel">Ask</span></button>
+    </div>
+    <p class="hint">Hold the orange tab and speak, then let go. Or tap once to start and tap again to stop.</p>
+  </div>
+
+  <!-- ================= BUILDER CONSOLE ================= -->
+  <aside class="console">
+    <div class="row">
+      <label for="lang">Parent's language</label>
+      <select id="lang">
+        <option value="kn">ಕನ್ನಡ Kannada</option>
+        <option value="hi">हिन्दी Hindi</option>
+        <option value="ta">தமிழ் Tamil</option>
+        <option value="te">తెలుగు Telugu</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+    <div id="health" class="health"></div>
+
+    <h2>Try asking</h2>
+    <div class="chips" id="chips"></div>
+    <form id="typeForm" class="typeform"><input id="typeInput" placeholder="…or type what the parent would say" autocomplete="off"><button>Ask</button></form>
+
+    <h2>What Bolo heard</h2>
+    <div class="heard" id="heard">—</div>
+
+    <h2>Time to first help <small>target ≤ 2.5 s</small></h2>
+    <div class="lat" id="lat">
+      <div class="lrow"><span>Speech → text</span><div class="lb"><i id="bStt"></i></div><b id="vStt">–</b></div>
+      <div class="lrow"><span>Claude picks step</span><div class="lb"><i id="bThink"></i></div><b id="vThink">–</b></div>
+      <div class="lrow"><span>Voice ready</span><div class="lb"><i id="bTts"></i></div><b id="vTts">–</b></div>
+      <div class="lrow tot"><span>Highlight shown</span><div class="lb"><i id="bHi"></i><em></em></div><b id="vHi">–</b></div>
+      <div class="lrow tot"><span>First audio</span><div class="lb"><i id="bAud"></i><em></em></div><b id="vAud">–</b></div>
+    </div>
+
+    <h2>Guardrails</h2>
+    <div class="stats">
+      <div><b id="sPerc">–</b><span>perception</span></div>
+      <div><b id="sRed">0</b><span>items redacted</span></div>
+      <div><b id="sTaps">0</b><span>taps by Bolo</span></div>
+      <div><b id="sSafety">–</b><span>safety check</span></div>
+    </div>
+
+    <h2>Step log</h2>
+    <ol class="log" id="log"></ol>
+
+    <details><summary>What Bolo sent to Claude (redacted screen tree)</summary><pre id="treeView">—</pre></details>
+  </aside>
+</main>
+
+<script src="/vendor/html2canvas.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
