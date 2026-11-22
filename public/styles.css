@@ -170,3 +170,5 @@ select,input{font:inherit;font-size:16px;padding:10px 12px;border-radius:12px;bo
 .log .scam{color:var(--red);font-weight:700}
 details{margin-top:18px;font-size:14px}summary{cursor:pointer;font-weight:600}
 pre{overflow:auto;max-height:300px;font-size:11px;background:var(--bg);padding:10px;border-radius:10px}
+.copylog{float:right;font:inherit;font-size:12px;font-weight:700;padding:4px 10px;border-radius:10px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer;opacity:.8}
+.copylog:hover{opacity:1}

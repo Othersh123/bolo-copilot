@@ -1,6 +1,14 @@
 {
 // ================= Simulated phone =================
 const $ = (s, r = document) => r.querySelector(s);
+// Debug trail: everything that happens in this tab, copyable from the panel ("Copy full log").
+const TRAIL = [], T0 = performance.now();
+function trail(ev, data = {}) {
+  TRAIL.push({ t: ((performance.now() - T0) / 1000).toFixed(2) + "s", ev, ...data });
+  if (TRAIL.length > 400) TRAIL.shift();
+}
+window.addEventListener("error", (e) => trail("js_error", { msg: e.message, at: `${e.filename}:${e.lineno}` }));
+window.addEventListener("unhandledrejection", (e) => trail("js_error", { msg: String(e.reason?.message || e.reason) }));
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const area = $("#screenArea");
 const W = 360, H = 780;
@@ -56,8 +64,9 @@ area.addEventListener("click", (e) => {
   const el = e.target.closest("button,a,[data-go],[data-act]");
   if (!el || !area.contains(el)) return;
   e.preventDefault();
-  if (!el.matches("a,[data-go],[data-act],[data-photo]")) { toast("Not part of this demo phone"); return; }
+  if (!el.matches("a,[data-go],[data-act],[data-photo]")) { trail("tap_dead", { screen: cur(), label: labelOf(el) }); toast("Not part of this demo phone"); return; }
   const label = labelOf(el) || "(unlabeled)";
+  trail("tap", { screen: cur(), label, highlighted: !!$("#spot.on") && el.dataset.nid === lastTarget });
   clearOverlay();
   if (el.dataset.photo) { selectedPhoto = el.dataset.photo; $("#pvImg").innerHTML = PHOTOS[selectedPhoto]; go("wa_preview"); }
   else if (el.dataset.act) ACTS[el.dataset.act]?.();
@@ -280,6 +289,7 @@ async function speak(text, t0) {
     await new Promise((res) => { audio.onplaying = res; audio.play().catch(res); });
   } catch (e) {
     console.warn("ElevenLabs TTS failed, using browser voice", e);
+    trail("tts_failed", { err: String(e.message || e).slice(0, 200), text });
     setBar("Tts", performance.now() - ts, "browser");
     const u = new SpeechSynthesisUtterance(text); u.lang = L[lang()].tag; u.rate = 0.9;
     speechSynthesis.cancel(); speechSynthesis.speak(u);
@@ -325,10 +335,12 @@ async function stopRec() {
     const res = await fetch(`/api/stt?lang=${lang()}`, { method: "POST", headers: { "content-type": blob.type }, body: blob });
     const j = await res.json();
     setBar("Stt", performance.now() - t0);
+    trail("stt", { ok: res.ok, ms: Math.round(performance.now() - t0), text: j.text, err: res.ok ? undefined : j });
     if (!res.ok || !j.text) throw new Error(JSON.stringify(j));
     await startGoal(j.text, t0, true);
   } catch (e) {
-    console.warn(e); $("#listening").classList.remove("on"); caption(L[lang()].sorry, "");
+    console.warn(e); trail("voice_error", { err: String(e.message || e).slice(0, 300) });
+    $("#listening").classList.remove("on"); caption(L[lang()].sorry, "");
     speak(L[lang()].sorry);
   } finally { tab.classList.remove("busy"); }
 }
@@ -342,12 +354,13 @@ tab.addEventListener("pointerup", () => { if (rec && performance.now() - pressT 
 tab.addEventListener("keydown", (e) => { if ((e.key === " " || e.key === "Enter") && !e.repeat) { e.preventDefault(); rec ? stopRec() : startRec(); } });
 
 // ================= The core loop =================
-let session = null;        // { goal, history: [], steps }
+let session = null, lastTarget = null;        // { goal, history: [], steps }
 let lastEvent = null;
 let busy = false;
 const MAX_STEPS = 10;
 
 async function startGoal(goal, t0, fromVoice) {
+  trail("goal", { goal, lang: lang(), from: fromVoice ? "voice" : "example/typed", screen: cur() });
   clearOverlay();
   $("#heard").textContent = goal;
   if (!fromVoice) resetBars();
@@ -362,6 +375,8 @@ async function step(t0, forceShot = false) {
   $("#listening").classList.add("on"); $("#listenText").textContent = L[lang()].thinking;
   try {
     const tree = captureTree();
+    trail("screen", { screen: tree.screen, secure: tree.secure, redacted: tree.redacted, unlabeled: tree.unlabeled,
+      nodes: tree.nodes.map((n) => `${n.id}${n.clickable ? "*" : ""}:${n.text || n.desc || n.cls}`.slice(0, 50)) });
     $("#sRed").textContent = tree.redacted;
     // FLAG_SECURE: never capture or send banking/PIN screens.
     if (tree.secure) {
@@ -384,6 +399,7 @@ async function step(t0, forceShot = false) {
     const r = await fetch("/api/think", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
     const j = await r.json();
     setBar("Think", performance.now() - ts);
+    trail("think", { ok: r.ok, ms: Math.round(performance.now() - ts), vision: !!shot, step: j.step, err: r.ok ? undefined : j });
     if (!r.ok) throw new Error(JSON.stringify(j.detail || j));
     const s = j.step;
     if (s.need_screenshot && !shot && !forceShot) { busy = false; return step(t0, true); }
@@ -393,6 +409,8 @@ async function step(t0, forceShot = false) {
     $("#listening").classList.remove("on");
     $("#danger").textContent = L[lang()].danger; $("#danger").classList.toggle("on", scam);
     const el = s.target_id && nodeMap.get(s.target_id);
+    lastTarget = el ? s.target_id : null;
+    if (s.target_id && !el) trail("bad_target", { target_id: s.target_id });
     if (el) highlight(el, scam);
     caption(s.say, s.say_en, scam);
     setBar("Hi", performance.now() - t0, null, true);
@@ -403,7 +421,7 @@ async function step(t0, forceShot = false) {
     busy = false;
     await speak(s.say, t0);
   } catch (e) {
-    console.error(e);
+    console.error(e); trail("step_error", { err: String(e.message || e).slice(0, 400) });
     $("#listening").classList.remove("on");
     caption(L[lang()].sorry, "Error: " + String(e.message || e).slice(0, 140));
   } finally { busy = false; }
@@ -441,3 +459,13 @@ fetch("/api/health").then((r) => r.json()).then((h) => {
   $("#health").innerHTML = bad.length ? bad.map((b) => `<div class="bad">${b}</div>`).join("") : `Brain: ${h.provider} · ${h.model} · Ears: ElevenLabs ${h.stt}`;
 }).catch(() => { $("#health").innerHTML = `<div class="bad">Server not reachable</div>`; });
 }
+
+$("#copyLog").addEventListener("click", async () => {
+  const text = JSON.stringify({ app: "bolo", at: new Date().toISOString(), ua: navigator.userAgent, events: TRAIL }, null, 1);
+  try { await navigator.clipboard.writeText(text); toast(`Log copied (${TRAIL.length} events)`); }
+  catch {
+    const ta = Object.assign(document.createElement("textarea"), { value: text });
+    document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove();
+    toast(`Log copied (${TRAIL.length} events)`);
+  }
+});

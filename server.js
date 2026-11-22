@@ -205,8 +205,10 @@ ${JSON.stringify(tree)}`;
     st.say_en = st.say_en || "";
     st.say = st.say || st.say_en || st.safety?.reason || "";
     st.safety = { level: st.safety?.level || "safe", reason: st.safety?.reason || "" };
+    console.log(`[think] ${tree?.screen} ${Date.now() - t0}ms${screenshot ? " +vision" : ""} -> ${st.action} ${st.target_id} (${st.safety.level}) "${st.say_en}"`);
     res.json({ ...out, provider: PROVIDER, ms: Date.now() - t0 });
   } catch (e) {
+    console.error(`[think] ${tree?.screen} FAILED after ${Date.now() - t0}ms:`, JSON.stringify(e.detail || String(e)).slice(0, 500));
     res.status(e.status || 502).json({ error: "think_failed", detail: e.detail || String(e) });
   }
 });
