@@ -49,10 +49,10 @@ node --env-file=.env server.js
 | `ELEVENLABS_API_KEY` | yes | Needs Text to Speech and Speech to Text access |
 | `ELEVEN_VOICE_ID` | recommended | Choose a warm Indian voice from the Voice Library. Default is a stock voice |
 | `ELEVEN_STT_MODEL` | no | Default `scribe_v2`; falls back to `scribe_v1` |
-| `ANTHROPIC_API_KEY` | one of these two | Uses Claude through tool calling. Model: `CLAUDE_MODEL` (default `claude-haiku-5-5`) |
-| `LLM_API_KEY` | one of these two | Any OpenAI-compatible endpoint. Defaults: `LLM_BASE_URL` = Nebius Token Factory (`us-north1`), `LLM_MODEL` = `nvidia/Nemotron-3.5-Super-VL`. Use a vision-capable model so the photo-grid fallback works |
+| `LLM_API_KEY` | yes (used by the live demo) | Any OpenAI-compatible endpoint. Defaults: `LLM_BASE_URL` = Nebius Token Factory (`us-north1`), `LLM_MODEL` = `nvidia/Nemotron-3.5-Super-VL`. Use a vision-capable model so the photo-grid fallback works |
+| `ANTHROPIC_API_KEY` | no | Optional alternative to Nebius: uses Claude through tool calling (`CLAUDE_MODEL`, default `claude-haiku-5-5`). Not set in the live demo |
 
-If both LLM options are set, Anthropic is used.
+If `ANTHROPIC_API_KEY` is set, it takes priority over `LLM_API_KEY`, so leave it unset to use Nebius.
 
 ## Deploy on Replit
 
