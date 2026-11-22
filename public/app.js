@@ -56,6 +56,7 @@ area.addEventListener("click", (e) => {
   const el = e.target.closest("button,a,[data-go],[data-act]");
   if (!el || !area.contains(el)) return;
   e.preventDefault();
+  if (!el.matches("a,[data-go],[data-act],[data-photo]")) { toast("Not part of this demo phone"); return; }
   const label = labelOf(el) || "(unlabeled)";
   clearOverlay();
   if (el.dataset.photo) { selectedPhoto = el.dataset.photo; $("#pvImg").innerHTML = PHOTOS[selectedPhoto]; go("wa_preview"); }
@@ -123,6 +124,8 @@ function captureTree() {
     for (const el of [root, ...root.querySelectorAll("*")]) {
       if (seen.has(el) || el.closest("svg") && el.tagName !== "svg") continue;
       const clickable = el.matches("button,a,[data-go],[data-act]");
+      // Decorative buttons in the mock do nothing, so never offer them to the model as tap targets.
+      const wired = el.matches("a,[data-go],[data-act],[data-photo]") || !!el.closest(".navbar [data-go]");
       const insideClickable = !clickable && el.parentElement?.closest("button,a");
       // Leaf text, or mixed content like an SMS body with a link inside (Android gives the whole body one TextView).
       const ownText = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
@@ -146,7 +149,7 @@ function captureTree() {
         cls: el.tagName === "A" ? "Link" : clickable ? (raw ? "Button" : "ImageButton") : "TextView",
         ...(t.s ? { text: t.s.slice(0, 160) } : {}),
         ...(aria ? { desc: aria } : {}),
-        clickable,
+        clickable: wired,
         bounds: [x, y, w, h],
         pos: where(x, y, w, h),
       };

@@ -194,13 +194,16 @@ Steps already guided in this session (oldest first): ${history.length ? history.
 Current screen accessibility tree (JSON; bounds are [x,y,w,h] on a 360x780 screen; "clickable" means it can be tapped; "color" is the background colour):
 ${JSON.stringify(tree)}`;
   try {
-    const out = PROVIDER === "anthropic"
-      ? await thinkAnthropic({ lang, text, screenshot })
-      : await thinkOpenAI({ lang, text, screenshot });
+    const think = () => PROVIDER === "anthropic"
+      ? thinkAnthropic({ lang, text, screenshot })
+      : thinkOpenAI({ lang, text, screenshot });
+    let out = await think();
+    // A step with nothing to say leaves the parent with a silent, frozen screen: ask once more.
+    if (!out.step.say && !out.step.say_en) out = await think();
     // Models sometimes drop a field; never let "undefined" reach the screen or the voice.
     const st = out.step;
     st.say_en = st.say_en || "";
-    st.say = st.say || st.say_en;
+    st.say = st.say || st.say_en || st.safety?.reason || "";
     st.safety = { level: st.safety?.level || "safe", reason: st.safety?.reason || "" };
     res.json({ ...out, provider: PROVIDER, ms: Date.now() - t0 });
   } catch (e) {
