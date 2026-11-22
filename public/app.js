@@ -124,7 +124,9 @@ function captureTree() {
       if (seen.has(el) || el.closest("svg") && el.tagName !== "svg") continue;
       const clickable = el.matches("button,a,[data-go],[data-act]");
       const insideClickable = !clickable && el.parentElement?.closest("button,a");
-      const leafText = !clickable && !el.children.length && el.textContent.trim();
+      // Leaf text, or mixed content like an SMS body with a link inside (Android gives the whole body one TextView).
+      const ownText = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
+      const leafText = !clickable && (el.children.length ? ownText : el.textContent.trim());
       if (!clickable && !(leafText && !insideClickable)) continue;
       const r = el.getBoundingClientRect();
       if (r.width < 2 || r.height < 2) continue;
@@ -383,7 +385,7 @@ async function step(t0, forceShot = false) {
     setBar("Hi", performance.now() - t0, null, true);
     session.steps++;
     session.history.push(`Bolo said: "${s.say_en}" (target ${s.target_id || "none"}: ${el ? labelOf(el) || "unlabeled" : "-"})`);
-    log(s.say, `${s.say_en}${s.safety?.level !== "safe" ? " · " + s.safety.level.toUpperCase() + ": " + s.safety.reason : ""}`, scam);
+    log(s.say, `${s.say_en || ""}${s.safety?.level && s.safety.level !== "safe" ? " · " + s.safety.level.toUpperCase() + ": " + (s.safety.reason || "") : ""}`, scam);
     if (s.goal_done || s.action === "done" || session.steps >= MAX_STEPS) session = null;
     busy = false;
     await speak(s.say, t0);

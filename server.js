@@ -197,6 +197,11 @@ ${JSON.stringify(tree)}`;
     const out = PROVIDER === "anthropic"
       ? await thinkAnthropic({ lang, text, screenshot })
       : await thinkOpenAI({ lang, text, screenshot });
+    // Models sometimes drop a field; never let "undefined" reach the screen or the voice.
+    const st = out.step;
+    st.say_en = st.say_en || "";
+    st.say = st.say || st.say_en;
+    st.safety = { level: st.safety?.level || "safe", reason: st.safety?.reason || "" };
     res.json({ ...out, provider: PROVIDER, ms: Date.now() - t0 });
   } catch (e) {
     res.status(e.status || 502).json({ error: "think_failed", detail: e.detail || String(e) });
