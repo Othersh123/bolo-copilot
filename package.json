@@ -1,0 +1,17 @@
+{
+  "name": "bolo-copilot",
+  "version": "0.1.0",
+  "description": "Regional voice-first screen co-pilot for non-digital-native parents (web simulation of the Android flow)",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "html2canvas": "^1.4.1"
+  }
+}
